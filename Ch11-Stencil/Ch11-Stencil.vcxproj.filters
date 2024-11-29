@@ -7,6 +7,9 @@
     <Filter Include="Source">
       <UniqueIdentifier>{9d17db8b-e19a-45ec-a5fb-90675c9de121}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{5dbc5c31-f830-4b59-9db0-d3dca546b811}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Common\FrameResource.h">
@@ -74,5 +77,13 @@
     <ClCompile Include="StencilApp.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Shaders\color.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\lighting.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

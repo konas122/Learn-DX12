@@ -425,62 +425,62 @@ bool D3DApp::InitDirect3D()
 	}
 #endif
 
-ThrowIfFailed(CreateDXGIFactory1(IID_PPV_ARGS(&mdxgiFactory)));
+    ThrowIfFailed(CreateDXGIFactory1(IID_PPV_ARGS(&mdxgiFactory)));
 
-// Try to create hardware device.
-HRESULT hardwareResult = D3D12CreateDevice(
-	nullptr,             // default adapter
-	D3D_FEATURE_LEVEL_11_0,
-	IID_PPV_ARGS(&md3dDevice)
-);
+    // Try to create hardware device.
+    HRESULT hardwareResult = D3D12CreateDevice(
+        nullptr,             // default adapter
+        D3D_FEATURE_LEVEL_11_0,
+        IID_PPV_ARGS(&md3dDevice)
+    );
 
-// Fallback to WARP device.
-if (FAILED(hardwareResult))
-{
-	ComPtr<IDXGIAdapter> pWarpAdapter;
-	ThrowIfFailed(mdxgiFactory->EnumWarpAdapter(IID_PPV_ARGS(&pWarpAdapter)));
+    // Fallback to WARP device.
+    if (FAILED(hardwareResult))
+    {
+        ComPtr<IDXGIAdapter> pWarpAdapter;
+        ThrowIfFailed(mdxgiFactory->EnumWarpAdapter(IID_PPV_ARGS(&pWarpAdapter)));
 
-	ThrowIfFailed(D3D12CreateDevice(
-		pWarpAdapter.Get(),
-		D3D_FEATURE_LEVEL_11_0,
-		IID_PPV_ARGS(&md3dDevice)));
-}
+        ThrowIfFailed(D3D12CreateDevice(
+            pWarpAdapter.Get(),
+            D3D_FEATURE_LEVEL_11_0,
+            IID_PPV_ARGS(&md3dDevice)));
+    }
 
-ThrowIfFailed(md3dDevice->CreateFence(
-	0, D3D12_FENCE_FLAG_NONE,
-	IID_PPV_ARGS(&mFence)
-));
+    ThrowIfFailed(md3dDevice->CreateFence(
+        0, D3D12_FENCE_FLAG_NONE,
+        IID_PPV_ARGS(&mFence)
+    ));
 
-mRtvDescriptorSize = md3dDevice->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
-mDsvDescriptorSize = md3dDevice->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_DSV);
-mCbvSrvUavDescriptorSize = md3dDevice->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+    mRtvDescriptorSize = md3dDevice->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+    mDsvDescriptorSize = md3dDevice->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_DSV);
+    mCbvSrvUavDescriptorSize = md3dDevice->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 
-// Check 4X MSAA quality support for our back buffer format.
-// All Direct3D 11 capable devices support 4X MSAA for all render 
-// target formats, so we only need to check quality support.
+    // Check 4X MSAA quality support for our back buffer format.
+    // All Direct3D 11 capable devices support 4X MSAA for all render 
+    // target formats, so we only need to check quality support.
 
-D3D12_FEATURE_DATA_MULTISAMPLE_QUALITY_LEVELS msQualityLevels;
-msQualityLevels.Format = mBackBufferFormat;
-msQualityLevels.SampleCount = 4;
-msQualityLevels.Flags = D3D12_MULTISAMPLE_QUALITY_LEVELS_FLAG_NONE;
-msQualityLevels.NumQualityLevels = 0;
-ThrowIfFailed(md3dDevice->CheckFeatureSupport(
-	D3D12_FEATURE_MULTISAMPLE_QUALITY_LEVELS,
-	&msQualityLevels,
-	sizeof(msQualityLevels)));
+    D3D12_FEATURE_DATA_MULTISAMPLE_QUALITY_LEVELS msQualityLevels;
+    msQualityLevels.Format = mBackBufferFormat;
+    msQualityLevels.SampleCount = 4;
+    msQualityLevels.Flags = D3D12_MULTISAMPLE_QUALITY_LEVELS_FLAG_NONE;
+    msQualityLevels.NumQualityLevels = 0;
+    ThrowIfFailed(md3dDevice->CheckFeatureSupport(
+        D3D12_FEATURE_MULTISAMPLE_QUALITY_LEVELS,
+        &msQualityLevels,
+        sizeof(msQualityLevels)));
 
-m4xMsaaQuality = msQualityLevels.NumQualityLevels;
-assert(m4xMsaaQuality > 0 && "Unexpected MSAA quality level.");
+    m4xMsaaQuality = msQualityLevels.NumQualityLevels;
+    assert(m4xMsaaQuality > 0 && "Unexpected MSAA quality level.");
 
 #ifdef _DEBUG
-LogAdapters();
+    LogAdapters();
 #endif
 
-CreateCommandObjects();
-CreateSwapChain();
-CreateRtvAndDsvDescriptorHeaps();
+    CreateCommandObjects();
+    CreateSwapChain();
+    CreateRtvAndDsvDescriptorHeaps();
 
-return true;
+    return true;
 }
 
 void D3DApp::CreateCommandObjects()
@@ -541,9 +541,9 @@ void D3DApp::FlushCommandQueue()
 	// Advance the fence value to mark commands up to this fence point.
 	mCurrentFence++;
 
-	// Add an instruction to the command queue to set a new fence point.  Because we 
-	// are on the GPU timeline, the new fence point won't be set until the GPU finishes
-	// processing all the commands prior to this Signal().
+	// Add an instruction to the command queue to set a new fence point.
+	// Because we are on the GPU timeline,
+	// the new fence point won't be set until the GPU finishes processing all the commands prior to this Signal().
 	ThrowIfFailed(mCommandQueue->Signal(mFence.Get(), mCurrentFence));
 
 	// Wait until the GPU has completed commands up to this fence point.

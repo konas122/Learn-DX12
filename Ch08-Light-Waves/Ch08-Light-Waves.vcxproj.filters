@@ -7,6 +7,9 @@
     <Filter Include="Source">
       <UniqueIdentifier>{4de4f715-c11b-4b0d-afb0-94e6c8c936c6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{457cd9e1-2eba-479c-9d6d-a812c956e289}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Common\FrameResource.h">
@@ -74,5 +77,13 @@
     <ClCompile Include="LightWavesApp.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Shaders\color.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\lighting.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

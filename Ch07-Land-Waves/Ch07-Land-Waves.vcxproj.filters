@@ -7,6 +7,9 @@
     <Filter Include="Source">
       <UniqueIdentifier>{5376e8d5-73d4-48e6-972d-f14c9ad55007}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{646468b2-2eeb-4c50-b86b-12ece4122b8f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Common\UploadBuffer.h">
@@ -74,5 +77,10 @@
     <ClCompile Include="..\Common\Waves.cpp">
       <Filter>Common</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Shaders\color.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

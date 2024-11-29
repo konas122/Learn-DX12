@@ -9,6 +9,9 @@ struct ObjectConstants
 {
 	DirectX::XMFLOAT4X4 World = MathHelper::Identity4x4();
 	DirectX::XMFLOAT4X4 TexTransform = MathHelper::Identity4x4();
+	DirectX::XMFLOAT2 DisplacementMapTexelSize = { 1.0f, 1.0f };
+	float GridSpatialStep = 1.0f;
+	float Pad;
 };
 
 
@@ -60,7 +63,7 @@ struct Vertex
 };
 
 
-enum class InitializeType : UINT
+enum class InitializeType : int
 {
 	wave,
 	material,

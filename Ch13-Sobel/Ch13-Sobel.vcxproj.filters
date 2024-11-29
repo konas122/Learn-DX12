@@ -2,13 +2,13 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Common">
-      <UniqueIdentifier>{7b5b2b55-f6db-4ff5-996b-9afe79d6962c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source">
-      <UniqueIdentifier>{26ea99ea-e27b-4e14-b05d-b3ff97b0d1a6}</UniqueIdentifier>
+      <UniqueIdentifier>{786cced9-c6d5-4bcb-a279-2c09f2e1f875}</UniqueIdentifier>
     </Filter>
     <Filter Include="Shaders">
-      <UniqueIdentifier>{434ecd40-8bc1-46b1-8bc9-9a75bb50192c}</UniqueIdentifier>
+      <UniqueIdentifier>{2e2a52b8-ce91-4006-b03c-ea8810c0b4f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source">
+      <UniqueIdentifier>{5f475199-ead0-4a28-b3c5-7cbaf239e638}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -39,7 +39,16 @@
     <ClCompile Include="..\Common\DDSTextureLoader.cpp">
       <Filter>Common</Filter>
     </ClCompile>
-    <ClCompile Include="TreesApp.cpp">
+    <ClCompile Include="SobelApp.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="SobelFilter.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="GpuWaves.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderTarget.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
@@ -77,15 +86,30 @@
     <ClInclude Include="..\Common\GeometryGenerator.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="SobelFilter.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="GpuWaves.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderTarget.h">
+      <Filter>Source</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Shaders\color.hlsl">
+    <FxCompile Include="Shaders\Composite.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\Default.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
     <FxCompile Include="Shaders\lighting.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="Shaders\treeSprite.hlsl">
+    <FxCompile Include="Shaders\Sobel.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\WaveSim.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
   </ItemGroup>

@@ -8,6 +8,9 @@
     <Filter Include="Common">
       <UniqueIdentifier>{d06222e5-eea2-4cdf-96ef-800e92b36da7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{1d3a990a-91e4-41dc-acd4-7138d66fdc3e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BoxApp.cpp">
@@ -69,5 +72,10 @@
     <ClInclude Include="..\Common\UploadBuffer.h">
       <Filter>Common</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Shaders\color.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

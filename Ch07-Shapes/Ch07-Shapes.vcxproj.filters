@@ -7,6 +7,9 @@
     <Filter Include="Source">
       <UniqueIdentifier>{e63f1f50-b5fb-4b21-8f00-66ce9712356f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{f49e3dc2-b891-4581-98fa-7e02cc066215}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Common\GeometryGenerator.cpp">
@@ -68,5 +71,10 @@
     <ClInclude Include="..\Common\MathHelper.h">
       <Filter>Common</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Shaders\color.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
