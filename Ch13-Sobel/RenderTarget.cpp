@@ -11,22 +11,23 @@ RenderTarget::RenderTarget(ID3D12Device* device, UINT width, UINT height, DXGI_F
 	BuildResource();
 }
 
-ID3D12Resource* RenderTarget::Resource()
+ID3D12Resource* RenderTarget::Resource() const
 {
 	return mOffscreenTex.Get();
 }
 
-CD3DX12_GPU_DESCRIPTOR_HANDLE RenderTarget::Srv()
+CD3DX12_GPU_DESCRIPTOR_HANDLE RenderTarget::Srv() const
 {
 	return mhGpuSrv;
 }
 
-CD3DX12_CPU_DESCRIPTOR_HANDLE RenderTarget::Rtv()
+CD3DX12_CPU_DESCRIPTOR_HANDLE RenderTarget::Rtv() const
 {
 	return mhCpuRtv;
 }
 
-void RenderTarget::BuildDescriptors(CD3DX12_CPU_DESCRIPTOR_HANDLE hCpuSrv,
+void RenderTarget::BuildDescriptors(
+	CD3DX12_CPU_DESCRIPTOR_HANDLE hCpuSrv,
 	CD3DX12_GPU_DESCRIPTOR_HANDLE hGpuSrv,
 	CD3DX12_CPU_DESCRIPTOR_HANDLE hCpuRtv)
 {

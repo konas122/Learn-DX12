@@ -14,16 +14,16 @@
 
 #include "lighting.hlsl"
 
-SamplerState gsamPointWrap        : register(s0);
-SamplerState gsamPointClamp       : register(s1);
-SamplerState gsamLinearWrap       : register(s2);
-SamplerState gsamLinearClamp      : register(s3);
-SamplerState gsamAnisotropicWrap  : register(s4);
+SamplerState gsamPointWrap : register(s0);
+SamplerState gsamPointClamp : register(s1);
+SamplerState gsamLinearWrap : register(s2);
+SamplerState gsamLinearClamp : register(s3);
+SamplerState gsamAnisotropicWrap : register(s4);
 SamplerState gsamAnisotropicClamp : register(s5);
 
 
-Texture2D   gDiffuseMap :       register(t0);
-Texture2D   gDisplacementMap :  register(t1);
+Texture2D gDiffuseMap : register(t0);
+Texture2D gDisplacementMap : register(t1);
 
 
 cbuffer cbPerObject : register(b0)
@@ -69,38 +69,38 @@ cbuffer cbPass : register(b1)
 
 cbuffer cbMaterial : register(b2)
 {
-    float4   gDiffuseAlbedo;
-    float3   gFresnelR0;
-    float    gRoughness;
+    float4 gDiffuseAlbedo;
+    float3 gFresnelR0;
+    float gRoughness;
     float4x4 gMatTransform;
 };
 
 
 struct VertexIn
 {
-    float3 PosL    : POSITION;
+    float3 PosL : POSITION;
     float3 NormalL : NORMAL;
-    float2 TexC    : TEXCOORD;
+    float2 TexC : TEXCOORD;
 };
 
 
 struct VertexOut
 {
-    float4 PosH    : SV_POSITION;
-    float3 PosW    : POSITION;
+    float4 PosH : SV_POSITION;
+    float3 PosW : POSITION;
     float3 NormalW : NORMAL;
-    float2 TexC    : TEXCOORD;
+    float2 TexC : TEXCOORD;
 };
 
 
 VertexOut VS(VertexIn vin)
 {
-    VertexOut vout = (VertexOut)0.0f;
+    VertexOut vout = (VertexOut) 0.0f;
 
 #ifdef DISPLACEMENT_MAP
     // Sample the displacement map using non-transformed [0,1]^2 tex-coords.
     vin.PosL.y += gDisplacementMap.SampleLevel(gsamLinearWrap, vin.TexC, 1.0f).r;
-    
+
     // Estimate normal using finite difference.
     float du = gDisplacementMapTexelSize.x;
     float dv = gDisplacementMapTexelSize.y;
@@ -116,7 +116,7 @@ VertexOut VS(VertexIn vin)
     vout.PosW = posW.xyz;
 
     // Assumes nonuniform scaling; otherwise, need to use inverse-transpose of world matrix.
-    vout.NormalW = mul(vin.NormalL, (float3x3)gWorld);
+    vout.NormalW = mul(vin.NormalL, (float3x3) gWorld);
 
     // Transform to homogeneous clip space.
     vout.PosH = mul(posW, gViewProj);
@@ -145,7 +145,7 @@ float4 PS(VertexOut pin) : SV_Target
     toEyeW /= distToEye; // normalize
 
     // Light terms.
-    float4 ambient = gAmbientLight*diffuseAlbedo;
+    float4 ambient = gAmbientLight * diffuseAlbedo;
 
     const float shininess = 1.0f - gRoughness;
     Material mat = { diffuseAlbedo, gFresnelR0, shininess };

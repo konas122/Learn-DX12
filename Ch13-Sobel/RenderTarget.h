@@ -13,9 +13,9 @@ public:
 	RenderTarget& operator=(const RenderTarget& rhs) = delete;
 	~RenderTarget() = default;
 
-	ID3D12Resource* Resource();
-	CD3DX12_GPU_DESCRIPTOR_HANDLE Srv();
-	CD3DX12_CPU_DESCRIPTOR_HANDLE Rtv();
+	ID3D12Resource* Resource() const;
+	CD3DX12_GPU_DESCRIPTOR_HANDLE Srv() const;
+	CD3DX12_CPU_DESCRIPTOR_HANDLE Rtv() const;
 
 	void BuildDescriptors(
 		CD3DX12_CPU_DESCRIPTOR_HANDLE hCpuSrv,
