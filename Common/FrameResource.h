@@ -9,9 +9,11 @@ struct ObjectConstants
 {
 	DirectX::XMFLOAT4X4 World = MathHelper::Identity4x4();
 	DirectX::XMFLOAT4X4 TexTransform = MathHelper::Identity4x4();
+
+	UINT MaterialIndex;
+
 	DirectX::XMFLOAT2 DisplacementMapTexelSize = { 1.0f, 1.0f };
 	float GridSpatialStep = 1.0f;
-	float Pad;
 };
 
 
@@ -47,6 +49,33 @@ struct PassConstants
 };
 
 
+struct MaterialData
+{
+	DirectX::XMFLOAT4 DiffuseAlbedo = { 1.0f, 1.0f, 1.0f, 1.0f };
+	DirectX::XMFLOAT3 FresnelR0 = { 0.01f, 0.01f, 0.01f };
+	float Roughness = 64.0f;
+
+	// Used in texture mapping.
+	DirectX::XMFLOAT4X4 MatTransform = MathHelper::Identity4x4();
+
+	UINT DiffuseMapIndex = 0;
+	UINT MaterialPad0;
+	UINT MaterialPad1;
+	UINT MaterialPad2;
+};
+
+
+struct InstanceData
+{
+	DirectX::XMFLOAT4X4 World = MathHelper::Identity4x4();
+	DirectX::XMFLOAT4X4 TexTransform = MathHelper::Identity4x4();
+	UINT MaterialIndex;
+	UINT InstancePad0;
+	UINT InstancePad1;
+	UINT InstancePad2;
+};
+
+
 struct Vertex
 {
 	Vertex() = default;
@@ -67,6 +96,8 @@ enum class InitializeType : int
 {
 	wave,
 	material,
+	materialData,
+	instance,
 };
 
 
@@ -89,6 +120,9 @@ public:
 	std::unique_ptr<UploadBuffer<PassConstants>> PassCB = nullptr;
 	std::unique_ptr<UploadBuffer<ObjectConstants>> ObjectCB = nullptr;
 	std::unique_ptr<UploadBuffer<MaterialConstants>> MaterialCB = nullptr;
+
+	std::unique_ptr<UploadBuffer<MaterialData>> MaterialBuffer = nullptr;
+	std::unique_ptr<UploadBuffer<InstanceData>> InstanceBuffer = nullptr;
 
 	// We cannot update a dynamic vertex buffer until the GPU is done processing
 	// the commands that reference it.  So each frame needs their own.

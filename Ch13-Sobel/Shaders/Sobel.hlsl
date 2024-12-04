@@ -41,3 +41,4 @@ void SobelCS(int3 dispatchThreadID : SV_DispatchThreadID)
 
     gOutput[dispatchThreadID.xy] = mag;
 }
+

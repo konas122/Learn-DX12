@@ -26,9 +26,18 @@ FrameResource::FrameResource(ID3D12Device* device, UINT passCount, UINT objectCo
 	{
 		MaterialCB = std::make_unique<UploadBuffer<MaterialConstants>>(device, vertCount, true);
 	}
-	else
+	else if (flag == InitializeType::wave)
 	{
 		WavesVB = std::make_unique<UploadBuffer<Vertex>>(device, vertCount, false);
+	}
+	else if (flag == InitializeType::instance)
+	{
+		MaterialBuffer = std::make_unique<UploadBuffer<MaterialData>>(device, vertCount, false);
+		InstanceBuffer = std::make_unique<UploadBuffer<InstanceData>>(device, objectCount, false);
+	}
+	else
+	{
+		MaterialBuffer = std::make_unique<UploadBuffer<MaterialData>>(device, vertCount, false);
 	}
 }
 
