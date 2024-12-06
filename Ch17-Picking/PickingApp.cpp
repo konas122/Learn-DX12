@@ -83,7 +83,7 @@ private:
 	void BuildRootSignature();
 	void BuildDescriptorHeaps();
 	void BuildShadersAndInputLayout();
-	void BuildSkullGeometry();
+	void BuildCarGeometry();
 	void BuildPSOs();
 	void BuildFrameResources();
 	void BuildMaterials();
@@ -176,7 +176,7 @@ bool PickingApp::Initialize()
 	BuildRootSignature();
 	BuildDescriptorHeaps();
 	BuildShadersAndInputLayout();
-	BuildSkullGeometry();
+	BuildCarGeometry();
 	BuildMaterials();
 	BuildRenderItems();
 	BuildFrameResources();
@@ -515,7 +515,7 @@ void PickingApp::BuildShadersAndInputLayout()
 	};
 }
 
-void PickingApp::BuildSkullGeometry()
+void PickingApp::BuildCarGeometry()
 {
 	std::ifstream fin("../Models/car.txt");
 
