@@ -11,7 +11,7 @@ RenderTarget::RenderTarget(ID3D12Device* device, UINT width, UINT height, DXGI_F
 	BuildResource();
 }
 
-ID3D12Resource* RenderTarget::Resource() const
+ID3D12Resource* RenderTarget::Resource()
 {
 	return mOffscreenTex.Get();
 }

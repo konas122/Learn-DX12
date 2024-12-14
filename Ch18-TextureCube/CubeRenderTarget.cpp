@@ -18,7 +18,7 @@ CubeRenderTarget::CubeRenderTarget(
 	BuildResource();
 }
 
-ID3D12Resource* CubeRenderTarget::Resource() const
+ID3D12Resource* CubeRenderTarget::Resource()
 {
 	return mCubeMap.Get();
 }

@@ -22,7 +22,7 @@ public:
 	CubeRenderTarget& operator=(const CubeRenderTarget& rhs) = delete;
 	~CubeRenderTarget() = default;
 
-	ID3D12Resource* Resource() const;
+	ID3D12Resource* Resource();
 	CD3DX12_GPU_DESCRIPTOR_HANDLE Srv() const;
 	CD3DX12_CPU_DESCRIPTOR_HANDLE Rtv(int faceIndex) const;
 
