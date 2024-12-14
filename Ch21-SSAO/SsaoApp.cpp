@@ -335,7 +335,7 @@ void SsaoApp::Draw(const GameTimer& gt)
 
 	{	// compute SSAO
 		mCommandList->SetGraphicsRootSignature(mSsaoRootSignature.Get());
-		mSsao->ComputeSsao(mCommandList.Get(), mCurrFrameResource, 3);
+		mSsao->ComputeSsao(mCommandList.Get(), mCurrFrameResource, 2);
 	}
 
 	// main rendering pass
@@ -745,11 +745,10 @@ void SsaoApp::BuildSsaoRootSignature()
 	CD3DX12_DESCRIPTOR_RANGE texTable1;
 	texTable1.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 2, 0);
 
-	CD3DX12_ROOT_PARAMETER slotRootParameter[4];
+	CD3DX12_ROOT_PARAMETER slotRootParameter[3];
 	slotRootParameter[0].InitAsConstantBufferView(0);
-	slotRootParameter[1].InitAsConstants(1, 1);
-	slotRootParameter[2].InitAsDescriptorTable(1, &texTable0, D3D12_SHADER_VISIBILITY_PIXEL);
-	slotRootParameter[3].InitAsDescriptorTable(1, &texTable1, D3D12_SHADER_VISIBILITY_PIXEL);
+	slotRootParameter[1].InitAsDescriptorTable(1, &texTable0, D3D12_SHADER_VISIBILITY_PIXEL);
+	slotRootParameter[2].InitAsDescriptorTable(1, &texTable1, D3D12_SHADER_VISIBILITY_PIXEL);
 
 	const CD3DX12_STATIC_SAMPLER_DESC pointClamp(
 		0,	// shaderRegister
@@ -789,7 +788,7 @@ void SsaoApp::BuildSsaoRootSignature()
 	};
 
 	// A root signature is an array of root parameters.
-	CD3DX12_ROOT_SIGNATURE_DESC rootSigDesc(4, slotRootParameter,
+	CD3DX12_ROOT_SIGNATURE_DESC rootSigDesc(3, slotRootParameter,
 		(UINT)staticSamplers.size(), staticSamplers.data(),
 		D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
 
@@ -1221,7 +1220,7 @@ void SsaoApp::BuildPSOs()
 	 * 这是因为我们已经在法线渲染目标的绘制过程中将场景深度写入了深度缓冲区.
 	 */
 
-	// PSO for opaque objects.
+	 // PSO for opaque objects.
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC opaquePsoDesc = basePsoDesc;
 	opaquePsoDesc.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_EQUAL;
 	opaquePsoDesc.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;

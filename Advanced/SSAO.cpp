@@ -191,11 +191,9 @@ void Ssao::ComputeSsao(ID3D12GraphicsCommandList* cmdList, FrameResource* curFra
 
 	auto ssaoCBAddress = curFrame->SsaoCB->Resource()->GetGPUVirtualAddress();
 	cmdList->SetGraphicsRootConstantBufferView(0, ssaoCBAddress);
-	cmdList->SetGraphicsRoot32BitConstant(1, 0, 0);
 
-	cmdList->SetGraphicsRootDescriptorTable(2, mhNormalMapGpuSrv);
-
-	cmdList->SetGraphicsRootDescriptorTable(3, mhRandomVectorMapGpuSrv);
+	cmdList->SetGraphicsRootDescriptorTable(1, mhNormalMapGpuSrv);
+	cmdList->SetGraphicsRootDescriptorTable(2, mhRandomVectorMapGpuSrv);
 
 	cmdList->SetPipelineState(mSsaoPso);
 	cmdList->IASetVertexBuffers(0, 0, nullptr);
@@ -220,8 +218,8 @@ void Ssao::BlurAmbientMap(ID3D12GraphicsCommandList* cmdList, FrameResource* cur
 
 	for (int i = 0; i < blurCount; ++i)
 	{
-		BlurAmbientMap(cmdList, true);
-		BlurAmbientMap(cmdList, false);
+		BlurAmbientMap(cmdList, true);	// AmbientMap0 -> AmbientMap1
+		BlurAmbientMap(cmdList, false);	// AmbientMap1 -> AmbientMap0
 	}
 }
 
@@ -236,14 +234,12 @@ void Ssao::BlurAmbientMap(ID3D12GraphicsCommandList* cmdList, bool horzBlur)
 		output = mAmbientMap1.Get();
 		inputSrv = mhAmbientMap0GpuSrv;
 		outputRtv = mhAmbientMap1CpuRtv;
-		cmdList->SetGraphicsRoot32BitConstant(1, 1, 0);
 	}
 	else
 	{
 		output = mAmbientMap0.Get();
 		inputSrv = mhAmbientMap1GpuSrv;
 		outputRtv = mhAmbientMap0CpuRtv;
-		cmdList->SetGraphicsRoot32BitConstant(1, 0, 0);
 	}
 
 	cmdList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(
@@ -255,8 +251,8 @@ void Ssao::BlurAmbientMap(ID3D12GraphicsCommandList* cmdList, bool horzBlur)
 	cmdList->ClearRenderTargetView(outputRtv, clearValue, 0, nullptr);
 	cmdList->OMSetRenderTargets(1, &outputRtv, true, nullptr);
 
-	cmdList->SetGraphicsRootDescriptorTable(2, mhNormalMapGpuSrv);
-	cmdList->SetGraphicsRootDescriptorTable(3, inputSrv);
+	cmdList->SetGraphicsRootDescriptorTable(1, mhNormalMapGpuSrv);
+	cmdList->SetGraphicsRootDescriptorTable(2, inputSrv);
 
 	cmdList->IASetVertexBuffers(0, 0, nullptr);
 	cmdList->IASetIndexBuffer(nullptr);
