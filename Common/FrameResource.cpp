@@ -12,7 +12,7 @@ FrameResource::FrameResource(ID3D12Device* device, UINT passCount, UINT objectCo
 	ObjectCB = std::make_unique<UploadBuffer<ObjectConstants>>(device, objectCount, true);
 }
 
-FrameResource::FrameResource(ID3D12Device* device, UINT passCount, UINT objectCount, UINT vertCount, InitializeType flag)
+FrameResource::FrameResource(ID3D12Device* device, UINT passCount, UINT objectCount, UINT count1, InitializeType flag)
 {
 	ThrowIfFailed(device->CreateCommandAllocator(
 		D3D12_COMMAND_LIST_TYPE_DIRECT,
@@ -24,29 +24,29 @@ FrameResource::FrameResource(ID3D12Device* device, UINT passCount, UINT objectCo
 
 	if (flag == InitializeType::material)
 	{
-		MaterialCB = std::make_unique<UploadBuffer<MaterialConstants>>(device, vertCount, true);
+		MaterialCB = std::make_unique<UploadBuffer<MaterialConstants>>(device, count1, true);
 	}
 	else if (flag == InitializeType::wave)
 	{
-		WavesVB = std::make_unique<UploadBuffer<Vertex>>(device, vertCount, false);
+		WavesVB = std::make_unique<UploadBuffer<Vertex>>(device, count1, false);
 	}
 	else if (flag == InitializeType::instance)
 	{
-		MaterialBuffer = std::make_unique<UploadBuffer<MaterialData>>(device, vertCount, false);
+		MaterialBuffer = std::make_unique<UploadBuffer<MaterialData>>(device, count1, false);
 		InstanceBuffer = std::make_unique<UploadBuffer<InstanceData>>(device, objectCount, false);
 	}
 	else if (flag == InitializeType::materialData)
 	{
-		MaterialBuffer = std::make_unique<UploadBuffer<MaterialData>>(device, vertCount, false);
+		MaterialBuffer = std::make_unique<UploadBuffer<MaterialData>>(device, count1, false);
 	}
 	else	// InitializeType::ssao
 	{
-		MaterialBuffer = std::make_unique<UploadBuffer<MaterialData>>(device, vertCount, false);
+		MaterialBuffer = std::make_unique<UploadBuffer<MaterialData>>(device, count1, false);
 		SsaoCB = std::make_unique<UploadBuffer<SsaoConstants>>(device, 1, true);
 	}
 }
 
-FrameResource::FrameResource(ID3D12Device* device, UINT passCount, UINT objectCount, UINT materialCount, UINT waveVertCount)
+FrameResource::FrameResource(ID3D12Device* device, UINT passCount, UINT objectCount, UINT count1, UINT count2, InitializeType flag)
 {
 	ThrowIfFailed(device->CreateCommandAllocator(
 		D3D12_COMMAND_LIST_TYPE_DIRECT,
@@ -55,9 +55,18 @@ FrameResource::FrameResource(ID3D12Device* device, UINT passCount, UINT objectCo
 
 	PassCB = std::make_unique<UploadBuffer<PassConstants>>(device, passCount, true);
 	ObjectCB = std::make_unique<UploadBuffer<ObjectConstants>>(device, objectCount, true);
-	MaterialCB = std::make_unique<UploadBuffer<MaterialConstants>>(device, materialCount, true);
 
-	WavesVB = std::make_unique<UploadBuffer<Vertex>>(device, waveVertCount, false);
+	if (flag == InitializeType::wave)
+	{
+		MaterialCB = std::make_unique<UploadBuffer<MaterialConstants>>(device, count1, true);
+		WavesVB = std::make_unique<UploadBuffer<Vertex>>(device, count2, false);
+	}
+	else
+	{
+		SsaoCB = std::make_unique<UploadBuffer<SsaoConstants>>(device, 1, true);
+		SkinnedCB = std::make_unique<UploadBuffer<SkinnedConstants>>(device, count1, true);
+		MaterialBuffer = std::make_unique<UploadBuffer<MaterialData>>(device, count2, false);
+	}
 }
 
 FrameResource::~FrameResource() {}
